@@ -1,7 +1,8 @@
 import React,{useState, useRef} from 'react'
 import { StyleSheet } from 'react-native';
 import HeadingProfile from '../components/profile/HeadingProfile';
-import { View, ScrollView, Keyboard } from 'react-native';
+import { ScrollView } from 'react-native';
+import { View } from '../components/Themed';
 import { Divider, Drawer, TextInput,  } from 'react-native-paper';
 import SpeedActions from '../components/profile/SpeedActions';
 export default function ProfileScreen() {
@@ -9,7 +10,7 @@ export default function ProfileScreen() {
   const scrollRef = useRef(null)
   
   return (
-  <View >
+  <View style={{height:'100%'}} >
       <HeadingProfile/>
       <ScrollView ref={scrollRef}>
         <SpeedActions onPress={()=> console.log('Favoris clicked')} icon='star' title="Favoris" style={styles.fav}/>
@@ -37,8 +38,6 @@ export default function ProfileScreen() {
           activeUnderlineColor='#FA4B7C'
           //onFocus={()=> console.log(scrollRef.current.scrollTo({y:}))}
         />
-
-
       </ScrollView>
   </View>
   );
