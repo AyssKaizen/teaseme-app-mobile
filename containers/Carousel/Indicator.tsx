@@ -5,7 +5,7 @@ import {Animated, View} from 'react-native';
 const Indicator = 
     (
         {scrollX, itemWidth, num, lastDot}:
-        {scrollX: Animated.Value,itemWidth: number,num: number, lastDot: any}
+        {scrollX: Animated.Value,itemWidth: number,num: number, lastDot?: boolean}
     ) => {
 
   return (
@@ -41,7 +41,7 @@ const Indicator =
 };
 
 const styles = {
-  dot: (i:number,num:number,lastDot:any) => ({
+  dot: (i:number,num:number,lastDot?:boolean) => ({
     width: i+1 === num && lastDot  ? 10 : 4,
     height:i+1 === num && lastDot ? 10 : 4,
     borderRadius: i+1 === num && lastDot ? 25 : 2,
