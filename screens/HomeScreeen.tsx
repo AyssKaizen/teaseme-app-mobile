@@ -1,47 +1,29 @@
 
-import { ScrollView } from 'react-native';
+import { ScrollView, Image } from 'react-native';
 import { Text, View } from '../components/Themed';
 import Carousel from '../containers/Carousel';
 import { RootTabScreenProps } from '../types';
+import  {useMovies}  from '../contexts/MoviesContext';
 
 export default function HomeScreeen({ navigation }: RootTabScreenProps<'Home'>) {
+  const movies:any= useMovies()
+  console.log(movies.movies);
+  const URL_POSTER = 'https://image.tmdb.org/t/p/w300'
+  
+  //console.log(JSON.stringify( movies.movie));
+  
+  
+  
   return (
-    <ScrollView>
-        <Text style={{fontSize: 30, alignSelf:'center'}}>Catégorie 1</Text>
+    <ScrollView contentContainerStyle={{ height: '100%'}}>
+        <Text style={{fontSize: 30, alignSelf:'center'}}>Popular movie</Text>
         <Carousel
-          items={[{id: 1, name:'coucou'},{id: 2, name:'loulou'},{id: 3, name:'touTou'}]}
+          items={movies.movies}
           render={ ({item}:{item:any}) => (
             <>
-              {console.log(item.name)}
-              <View key={item.id} style={{backgroundColor: 'blue', width: 200, height: 200}}>
-                <Text style={{textAlign: 'center', color: 'white'}}>{item.name}</Text>
-              </View>
-            </>
-          )
-          }
-        />
-        <Text style={{fontSize: 30, alignSelf:'center'}}>Catégorie 2</Text>
-        <Carousel
-          items={[{id: 1, name:'coucou'},{id: 2, name:'loulou'},{id: 3, name:'touTou'}]}
-          render={ ({item}:{item:any}) => (
-            <>
-              {console.log(item.name)}
-              <View key={item.id} style={{backgroundColor: 'blue', width: 200, height: 200}}>
-                <Text style={{textAlign: 'center', color: 'white'}}>{item.name}</Text>
-              </View>
-            </>
-          )
-          }
-        />
-        <Text style={{fontSize: 30, alignSelf:'center'}}>Catégorie 3</Text>
-        <Carousel
-          items={[{id: 1, name:'coucou'},{id: 2, name:'loulou'},{id: 3, name:'touTou'}]}
-          render={ ({item}:{item:any}) => (
-            <>
-              {console.log(item.name)}
-              <View key={item.id} style={{backgroundColor: 'blue', width: 200, height: 200}}>
-                <Text style={{textAlign: 'center', color: 'white'}}>{item.name}</Text>
-              </View>
+                <Text style={{textAlign: 'center', color: 'black'}}>{item.release_date}</Text>
+                <Image resizeMode='contain' style={{width: 300, height: 250}} source={{uri:`${URL_POSTER}${item.poster_path}`}}/>
+                <Text style={{textAlign: 'center', color: 'black'}}>{item.title}</Text>
             </>
           )
           }
