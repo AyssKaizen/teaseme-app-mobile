@@ -1,32 +1,52 @@
-import { StyleSheet } from 'react-native';
 
-import EditScreenInfo from '../components/EditScreenInfo';
+import { ScrollView } from 'react-native';
 import { Text, View } from '../components/Themed';
+import Carousel from '../containers/Carousel';
 import { RootTabScreenProps } from '../types';
 
 export default function HomeScreeen({ navigation }: RootTabScreenProps<'Home'>) {
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Tab One</Text>
-      <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
-      <EditScreenInfo path="/screens/TabOneScreen.tsx" />
-    </View>
+    <ScrollView>
+        <Text style={{fontSize: 30, alignSelf:'center'}}>Catégorie 1</Text>
+        <Carousel
+          items={[{id: 1, name:'coucou'},{id: 2, name:'loulou'},{id: 3, name:'touTou'}]}
+          render={ ({item}:{item:any}) => (
+            <>
+              {console.log(item.name)}
+              <View key={item.id} style={{backgroundColor: 'blue', width: 200, height: 200}}>
+                <Text style={{textAlign: 'center', color: 'white'}}>{item.name}</Text>
+              </View>
+            </>
+          )
+          }
+        />
+        <Text style={{fontSize: 30, alignSelf:'center'}}>Catégorie 2</Text>
+        <Carousel
+          items={[{id: 1, name:'coucou'},{id: 2, name:'loulou'},{id: 3, name:'touTou'}]}
+          render={ ({item}:{item:any}) => (
+            <>
+              {console.log(item.name)}
+              <View key={item.id} style={{backgroundColor: 'blue', width: 200, height: 200}}>
+                <Text style={{textAlign: 'center', color: 'white'}}>{item.name}</Text>
+              </View>
+            </>
+          )
+          }
+        />
+        <Text style={{fontSize: 30, alignSelf:'center'}}>Catégorie 3</Text>
+        <Carousel
+          items={[{id: 1, name:'coucou'},{id: 2, name:'loulou'},{id: 3, name:'touTou'}]}
+          render={ ({item}:{item:any}) => (
+            <>
+              {console.log(item.name)}
+              <View key={item.id} style={{backgroundColor: 'blue', width: 200, height: 200}}>
+                <Text style={{textAlign: 'center', color: 'white'}}>{item.name}</Text>
+              </View>
+            </>
+          )
+          }
+        />
+    </ScrollView>
+
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: 'bold',
-  },
-  separator: {
-    marginVertical: 30,
-    height: 1,
-    width: '80%',
-  },
-});
