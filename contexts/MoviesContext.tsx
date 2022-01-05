@@ -7,6 +7,7 @@ interface ContextProp {
     topRatedMovies?: any,
     popularSeries?: any
     currentMovie?: any,
+    getSerieByID: (id: string) => void
     getMovieByID: (id: string) => void
 }
 
@@ -34,13 +35,22 @@ export const MoviesContextProvider = ({children}:{children: any}) => {
             console.error(error)
         }
     }
+    const getSerieByID = async (id: string)  => {
+        try {
+            const {data} = await axios.get(`${BASE_URL}${TV}${id}${API}&language=fr`)
+            setCurrentMovie(data)
+        } catch (error) {
+            console.error(error)
+        }
+    }
 
     const propsContext: ContextProp = {
         popularMovies: popularMovies,
         topRatedMovies: topRatedMovies,
         popularSeries: popularSeries,
         getMovieByID: getMovieByID,
-        currentMovie: currentMovie
+        currentMovie: currentMovie,
+        getSerieByID: getSerieByID
     }
 
     const getPopularMovies = async () => {
