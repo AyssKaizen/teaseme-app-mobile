@@ -18,7 +18,10 @@
     "@react-navigation/bottom-tabs": "^6.0.5",
     "@react-navigation/native": "^6.0.2",
     "@react-navigation/native-stack": "^6.1.0",
+    "@types/dateformat": "^5.0.0",
+    "@types/react-native-star-rating": "^1.1.2",
     "axios": "^0.24.0",
+    "dateformat": "^5.0.2",
     "expo": "~44.0.0",
     "expo-asset": "~8.4.4",
     "expo-constants": "~13.0.0",
@@ -34,6 +37,7 @@
     "react-native-safe-area-context": "3.3.2",
     "react-native-screens": "~3.10.1",
     "react-native-snap-carousel": "^3.9.1",
+    "react-native-star-rating": "^1.1.0",
     "react-native-web": "0.17.1"
   },
   "devDependencies": {
