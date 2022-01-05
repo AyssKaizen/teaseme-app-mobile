@@ -7,6 +7,8 @@ interface ContextProp {
     topRatedMovies?: any,
     popularSeries?: any
     currentMovie?: any,
+    seriesOnTheAir?: any,
+    topRatedSeries?: any,
     getSerieByID: (id: string) => void
     getMovieByID: (id: string) => void
 }
@@ -19,6 +21,8 @@ export const MoviesContextProvider = ({children}:{children: any}) => {
     const [popularMovies, setPopularMovies] = useState<any>([])
     const [popularSeries, setPopularSeries] = useState<any>([])
     const [topRatedMovies, setTopRatedMovies] = useState<any>([])
+    const [seriesOnTheAir, setSeriesOnTheAir] = useState<any>([])
+    const [topRatedSeries, setTopRatedSeries] = useState<any>([])
     const [currentMovie, setCurrentMovie] = useState<any>()
     const API = `?api_key=${API_KEY}`
     const BASE_URL = 'https://api.themoviedb.org/3'
@@ -26,6 +30,7 @@ export const MoviesContextProvider = ({children}:{children: any}) => {
     const MOVIE = '/movie/'
     const POPULAR = 'popular'
     const TOP_RATED = 'top_rated'
+    const ON_THE_AIR = 'on_the_air'
 
     const getMovieByID = async (id: string)  => {
         try {
@@ -50,7 +55,9 @@ export const MoviesContextProvider = ({children}:{children: any}) => {
         popularSeries: popularSeries,
         getMovieByID: getMovieByID,
         currentMovie: currentMovie,
-        getSerieByID: getSerieByID
+        getSerieByID: getSerieByID,
+        seriesOnTheAir: seriesOnTheAir,
+        topRatedSeries: topRatedSeries,
     }
 
     const getPopularMovies = async () => {
@@ -63,7 +70,7 @@ export const MoviesContextProvider = ({children}:{children: any}) => {
     }
     const getTopRatedMovies = async () => {
         try {
-            const res : any = await axios.get<any>(`${BASE_URL}${MOVIE}${TOP_RATED}${API}`)
+            const res : any = await axios.get<any>(`${BASE_URL}${MOVIE}${TOP_RATED}${API}&language=fr`)
             setTopRatedMovies(res.data.results)
         } catch (error) {
             console.error(error)
@@ -71,8 +78,25 @@ export const MoviesContextProvider = ({children}:{children: any}) => {
     }
     const getPopularSeries = async () => {
         try {
-            const res : any = await axios.get<any>(`${BASE_URL}${TV}${POPULAR}${API}`)
+            const res : any = await axios.get<any>(`${BASE_URL}${TV}${POPULAR}${API}&language=fr`)
             setPopularSeries(res.data.results)
+        } catch (error) {
+            console.error(error)
+        }
+    }
+    const getSeriesOnTheAir = async () => {
+        try {
+            const res : any = await axios.get<any>(`${BASE_URL}${TV}${ON_THE_AIR}${API}&language=fr`)
+            setSeriesOnTheAir(res.data.results)
+        } catch (error) {
+            console.error(error)
+        }
+    }
+
+    const getTopRateSeries = async () => {
+        try {
+            const res : any = await axios.get<any>(`${BASE_URL}${TV}${TOP_RATED}${API}&language=fr`)
+            setTopRatedSeries(res.data.results)
         } catch (error) {
             console.error(error)
         }
@@ -83,6 +107,8 @@ export const MoviesContextProvider = ({children}:{children: any}) => {
         getPopularMovies()
         getTopRatedMovies()
         getPopularSeries()
+        getSeriesOnTheAir()
+        getTopRateSeries()
     },[])
 
     return (
