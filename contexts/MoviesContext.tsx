@@ -1,11 +1,14 @@
 import React, {createContext, useContext, useState, useEffect} from 'react';
 import axios from 'axios'
+import {API_KEY} from '../config'
 
 interface ContextProp {
     popularMovies?: any,
     topRatedMovies?: any,
-    movie?: any,
     popularSeries?: any
+    currentMovie?: any,
+    getSerieByID: (id: string) => void
+    getMovieByID: (id: string) => void
 }
 
 const MoviesContext = createContext<ContextProp>({});
@@ -16,31 +19,43 @@ export const MoviesContextProvider = ({children}:{children: any}) => {
     const [popularMovies, setPopularMovies] = useState<any>([])
     const [popularSeries, setPopularSeries] = useState<any>([])
     const [topRatedMovies, setTopRatedMovies] = useState<any>([])
-    const [movie, setMovie] = useState<any>({})
-    const API_KEY = '?api_key=bd8ddc22c4bf84e8bc799c5062ef30d2'
-    const BASE_URL_MOVIE = 'https://api.themoviedb.org/3/movie/'
-    const BASE_URL_TV = 'https://api.themoviedb.org/3/tv/'
-    const POPULAR_MOVIE = 'popular'
+    const [currentMovie, setCurrentMovie] = useState<any>()
+    const API = `?api_key=${API_KEY}`
+    const BASE_URL = 'https://api.themoviedb.org/3'
+    const TV = '/tv/'
+    const MOVIE = '/movie/'
+    const POPULAR = 'popular'
     const TOP_RATED = 'top_rated'
 
-    const propsContext: ContextProp = {
-        popularMovies: popularMovies,
-        movie: movie, 
-        topRatedMovies: topRatedMovies,
-        popularSeries: popularSeries
-    }
-
-    const getMovie = async () => {
+    const getMovieByID = async (id: string)  => {
         try {
-            const res : any = await axios.get<any>(`${BASE_URL_MOVIE}566525${API_KEY}`)
-            setMovie(res.data)
+            const {data} = await axios.get(`${BASE_URL}${MOVIE}${id}${API}&language=fr`)
+            setCurrentMovie(data)
         } catch (error) {
             console.error(error)
         }
     }
+    const getSerieByID = async (id: string)  => {
+        try {
+            const {data} = await axios.get(`${BASE_URL}${TV}${id}${API}&language=fr`)
+            setCurrentMovie(data)
+        } catch (error) {
+            console.error(error)
+        }
+    }
+
+    const propsContext: ContextProp = {
+        popularMovies: popularMovies,
+        topRatedMovies: topRatedMovies,
+        popularSeries: popularSeries,
+        getMovieByID: getMovieByID,
+        currentMovie: currentMovie,
+        getSerieByID: getSerieByID
+    }
+
     const getPopularMovies = async () => {
         try {
-            const res : any = await axios.get<any>(`${BASE_URL_MOVIE}${POPULAR_MOVIE}${API_KEY}`)
+            const res : any = await axios.get<any>(`${BASE_URL}${MOVIE}${POPULAR}${API}&language=fr`)
             setPopularMovies(res.data.results)
         } catch (error) {
             console.error(error)
@@ -48,7 +63,7 @@ export const MoviesContextProvider = ({children}:{children: any}) => {
     }
     const getTopRatedMovies = async () => {
         try {
-            const res : any = await axios.get<any>(`${BASE_URL_MOVIE}${TOP_RATED}${API_KEY}`)
+            const res : any = await axios.get<any>(`${BASE_URL}${MOVIE}${TOP_RATED}${API}`)
             setTopRatedMovies(res.data.results)
         } catch (error) {
             console.error(error)
@@ -56,7 +71,7 @@ export const MoviesContextProvider = ({children}:{children: any}) => {
     }
     const getPopularSeries = async () => {
         try {
-            const res : any = await axios.get<any>(`${BASE_URL_TV}${POPULAR_MOVIE}${API_KEY}`)
+            const res : any = await axios.get<any>(`${BASE_URL}${TV}${POPULAR}${API}`)
             setPopularSeries(res.data.results)
         } catch (error) {
             console.error(error)
@@ -65,7 +80,6 @@ export const MoviesContextProvider = ({children}:{children: any}) => {
     
 
     useEffect(()=> {
-        getMovie()
         getPopularMovies()
         getTopRatedMovies()
         getPopularSeries()
