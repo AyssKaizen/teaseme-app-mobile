@@ -7,8 +7,8 @@ import Indicator from './Indicator';
 // https://www.youtube.com/watch?v=YE7c6ch2msY
 
 const WIDTH = Dimensions.get('window').width;
-const ITEM_WIDTH = Math.round(WIDTH * 0.66);
-const ITEM_HEIGHT = Math.round((ITEM_WIDTH / 4) * 5.1);
+const ITEM_WIDTH = Math.round(WIDTH * 0.57);
+const ITEM_HEIGHT = Math.round((ITEM_WIDTH / 4) * 3.2);
 
 const Carousel = (
     {items = [], render, onChange, onScroll, lastDot} :

@@ -1,34 +1,84 @@
-
+import React,{useState} from 'react'
 import { ScrollView, Image } from 'react-native';
 import { Text, View } from '../components/Themed';
 import Carousel from '../containers/Carousel';
 import { RootTabScreenProps } from '../types';
 import  {useMovies}  from '../contexts/MoviesContext';
+import { TextInput, ActivityIndicator, Card } from 'react-native-paper';
 
 export default function HomeScreeen({ navigation }: RootTabScreenProps<'Home'>) {
-  const movies:any= useMovies()
-  console.log(movies.movies);
-  const URL_POSTER = 'https://image.tmdb.org/t/p/w300'
-  
-  //console.log(JSON.stringify( movies.movie));
-  
-  
+  const apiMovieCtx = useMovies()
+  const [text, setText] = useState<any>()
+  const URL_POSTER = 'https://image.tmdb.org/t/p/w500'
   
   return (
-    <ScrollView contentContainerStyle={{ height: '100%'}}>
-        <Text style={{fontSize: 30, alignSelf:'center'}}>Popular movie</Text>
-        <Carousel
-          items={movies.movies}
-          render={ ({item}:{item:any}) => (
-            <>
-                <Text style={{textAlign: 'center', color: 'black'}}>{item.release_date}</Text>
-                <Image resizeMode='contain' style={{width: 300, height: 250}} source={{uri:`${URL_POSTER}${item.poster_path}`}}/>
-                <Text style={{textAlign: 'center', color: 'black'}}>{item.title}</Text>
-            </>
-          )
-          }
+    <>
+      <View>
+        <Text style={{fontSize: 40, alignSelf:'center', fontWeight:'bold'}}>Tease me i'm famous</Text>
+        <TextInput
+          label='Rechercher'
+          value={text}
+          onChangeText={text => setText(text)}
+          placeholder='votre description'
+          style={{marginHorizontal: 20, marginVertical: 20}}
+          multiline
+          numberOfLines={5}
+          autoComplete
+          activeUnderlineColor='#FA4B7C'
+          right={<TextInput.Icon name='magnify' onPress={()=> {}}/>}
         />
+        </View>
+        <ScrollView scrollEnabled >
+        { 
+          apiMovieCtx.topRatedMovies.length > 0 ?
+          <View style={{height: 350}}>
+            <Text style={{marginLeft: 5,fontSize: 22, fontWeight: 'bold'}}>Films les mieux notés</Text>
+            <Carousel
+            items={apiMovieCtx.topRatedMovies}
+            render={ ({item}:{item:any}) => (
+              <Card style={{marginTop: 50}}>
+                  <Image resizeMode='contain' style={{width: 170, height: 255}} source={{uri:`${URL_POSTER}${item.poster_path}`}}/>
+              </Card>
+            )
+            }
+          />
+          </View>
+          : <ActivityIndicator size={'large'} animating={true} color={'red'}/>
+        }
+        { 
+          apiMovieCtx.popularMovies.length > 0 ?
+          <View style={{height: 350}}>
+            <Text style={{marginLeft: 5,fontSize: 22, fontWeight: 'bold'}}>Films populaires</Text>
+            <Carousel
+            items={apiMovieCtx.popularMovies}
+            render={ ({item}:{item:any}) => (
+              <Card style={{marginTop: 50}}>
+                  <Image resizeMode='contain' style={{width: 170, height: 255}} source={{uri:`${URL_POSTER}${item.poster_path}`}}/>
+              </Card>
+            )
+            }
+          />
+          </View>
+          : <ActivityIndicator size={'large'} animating={true} color={'red'}/>
+        }
+        { 
+          apiMovieCtx.popularSeries.length > 0 ?
+          <View style={{height: 350}}>
+            <Text style={{marginLeft: 5,fontSize: 22, fontWeight: 'bold'}}>Séries populaires</Text>
+            <Carousel
+            items={apiMovieCtx.popularSeries}
+            render={ ({item}:{item:any}) => (
+              <Card style={{marginTop: 50}}>
+                  <Image resizeMode='contain' style={{width: 170, height: 255}} source={{uri:`${URL_POSTER}${item.poster_path}`}}/>
+              </Card>
+            )
+            }
+          />
+          </View>
+          : <ActivityIndicator size={'large'} animating={true} color={'red'}/>
+        }
+     
     </ScrollView>
-
+  </>
   );
 }
