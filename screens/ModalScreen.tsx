@@ -1,18 +1,37 @@
+import React,{useEffect,useState} from 'react'
 import { StatusBar } from 'expo-status-bar';
 import { Platform, StyleSheet } from 'react-native';
-
 import EditScreenInfo from '../components/EditScreenInfo';
 import { Text, View } from '../components/Themed';
+import { useMovies } from '../contexts/MoviesContext';
+import { ActivityIndicator } from 'react-native-paper';
 
-export default function ModalScreen() {
+export default function ModalScreen({route}:{route:any}) {
+  const apiMovieCtx = useMovies()
+  const [movie, setMovie] = useState<any>()
+  const {id} = route.params
+
+  useEffect(() => {
+    console.log(movie);
+    if(!movie || movie.id != apiMovieCtx.currentMovie.id){
+      apiMovieCtx.getMovieByID(id)
+      setMovie(apiMovieCtx.currentMovie)
+    }
+  },[apiMovieCtx.currentMovie])
+
+
+
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Modal</Text>
-      <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
-      <EditScreenInfo path="/screens/ModalScreen.tsx" />
+      {!movie ? <ActivityIndicator/> :
+      <>
+        <Text style={styles.title}>{movie.title}</Text>
+        <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
+        <EditScreenInfo path="/screens/ModalScreen.tsx" />
 
-      {/* Use a light status bar on iOS to account for the black space above the modal */}
-      <StatusBar style={Platform.OS === 'ios' ? 'light' : 'auto'} />
+        <StatusBar style={Platform.OS === 'ios' ? 'light' : 'auto'} />
+      </>
+      }
     </View>
   );
 }

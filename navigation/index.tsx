@@ -68,7 +68,7 @@ function BottomTabNavigator() {
         options={({ navigation }: RootTabScreenProps<'Home'>) => ({
           title: 'Accueil',
           tabBarIcon: ({ color }) => <TabBarIcon name="home" color={color} />,
-          headerRight: () => (
+          /*headerRight: () => (
             <Pressable
               onPress={() => navigation.navigate('Modal')}
               style={({ pressed }) => ({
@@ -81,7 +81,7 @@ function BottomTabNavigator() {
                 style={{ marginRight: 15 }}
               />
             </Pressable>
-          ),
+          ),*/
         })}
       />
       <BottomTab.Screen

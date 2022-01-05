@@ -21,8 +21,6 @@ export default function HomeScreeen({ navigation }: RootTabScreenProps<'Home'>) 
           onChangeText={text => setText(text)}
           placeholder='votre description'
           style={{marginHorizontal: 20, marginVertical: 20}}
-          multiline
-          numberOfLines={5}
           autoComplete
           activeUnderlineColor='#FA4B7C'
           right={<TextInput.Icon name='magnify' onPress={()=> {}}/>}
@@ -36,7 +34,7 @@ export default function HomeScreeen({ navigation }: RootTabScreenProps<'Home'>) 
             <Carousel
             items={apiMovieCtx.topRatedMovies}
             render={ ({item}:{item:any}) => (
-              <Card style={{marginTop: 50}}>
+              <Card onPress={() => navigation.navigate('Modal',{id: item.id})} style={{marginTop: 50}}>
                   <Image resizeMode='contain' style={{width: 170, height: 255}} source={{uri:`${URL_POSTER}${item.poster_path}`}}/>
               </Card>
             )
