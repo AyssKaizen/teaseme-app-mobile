@@ -7,8 +7,8 @@ import Indicator from './Indicator';
 // https://www.youtube.com/watch?v=YE7c6ch2msY
 
 const WIDTH = Dimensions.get('window').width;
-const ITEM_WIDTH = Math.round(WIDTH * 0.96);
-const ITEM_HEIGHT = Math.round((ITEM_WIDTH / 4) * 2.8);
+const ITEM_WIDTH = Math.round(WIDTH * 0.57);
+const ITEM_HEIGHT = Math.round((ITEM_WIDTH / 4) * 3.2);
 
 const Carousel = (
     {items = [], render, onChange, onScroll, lastDot} :
@@ -19,9 +19,11 @@ const Carousel = (
 
   return (
     <>
-      <Indicator scrollX={scrollX} itemWidth={ITEM_WIDTH} num={items.length} lastDot={lastDot} />
+      {/*<Indicator scrollX={scrollX} itemWidth={ITEM_WIDTH} num={items.length} lastDot={lastDot} />*/}
       <Crs
         sliderWidth={WIDTH}
+        autoplay
+        autoplayDelay={1}
         itemWidth={ITEM_WIDTH}
         inactiveSlideOpacity={1.0}
         inactiveSlideScale={1.0}
