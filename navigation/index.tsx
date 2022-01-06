@@ -8,16 +8,18 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer, DefaultTheme, DarkTheme } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import * as React from 'react';
-import { ColorSchemeName, Pressable } from 'react-native';
+import { ColorSchemeName, ImageBackgroundBase, Pressable } from 'react-native';
 
 import Colors from '../constants/Colors';
 import useColorScheme from '../hooks/useColorScheme';
-import ModalScreen from '../screens/ModalScreen';
+import ModalScreen from '../screens/DetailsScreen';
 import NotFoundScreen from '../screens/NotFoundScreen';
 import { RootStackParamList, RootTabParamList, RootTabScreenProps } from '../types';
 import LinkingConfiguration from './LinkingConfiguration';
 import ProfileScreen from '../screens/ProfileScreen';
 import HomeScreeen from '../screens/HomeScreeen';
+import VideoScreen from '../screens/VideoScreen';
+import DetailsScreen from '../screens/DetailsScreen';
 
 export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
   return (
@@ -40,8 +42,10 @@ function RootNavigator() {
     <Stack.Navigator>
       <Stack.Screen name="Root" component={BottomTabNavigator} options={{ headerShown: false }} />
       <Stack.Screen name="NotFound" component={NotFoundScreen} options={{ title: 'Oops!' }} />
+      
+      <Stack.Screen name="Details" component={DetailsScreen} />
       <Stack.Group screenOptions={{ presentation: 'modal' }}>
-        <Stack.Screen name="Modal" component={ModalScreen} options={{ headerShown: false }} />
+       <Stack.Screen name="VideoScreen" component={VideoScreen} />
       </Stack.Group>
     </Stack.Navigator>
   );
@@ -68,21 +72,23 @@ function BottomTabNavigator() {
         options={({ navigation }: RootTabScreenProps<'Home'>) => ({
           title: "Tease me i'm famous 🤭",
           tabBarLabel: "Accueil",
+          headerStatusBarHeight: 30,
+          headerStyle:{backgroundColor: '#F6F7EE'},
           tabBarIcon: ({ color }) => <TabBarIcon size={25} name="home" color={color} />,
-          /*headerRight: () => (
+          headerRight: () => (
             <Pressable
-              onPress={() => navigation.navigate('Modal')}
+              onPress={() => console.log('télécommande')}
               style={({ pressed }) => ({
                 opacity: pressed ? 0.5 : 1,
               })}>
               <FontAwesome
-                name="info-circle"
-                size={25}
+                name="tv"
+                size={20}
                 color={Colors[colorScheme].text}
                 style={{ marginRight: 15 }}
               />
             </Pressable>
-          ),*/
+          ),
         })}
       />
       <BottomTab.Screen
