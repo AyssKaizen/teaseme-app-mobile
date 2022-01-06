@@ -9,8 +9,10 @@ interface ContextProp {
     currentMovie?: any,
     seriesOnTheAir?: any,
     topRatedSeries?: any,
+    currentVideo?: any,
     getSerieByID: (id: string) => void
     getMovieByID: (id: string) => void
+    getMovieVideoByID: (id: string) => void
 }
 
 const MoviesContext = createContext<ContextProp>({});
@@ -24,6 +26,7 @@ export const MoviesContextProvider = ({children}:{children: any}) => {
     const [seriesOnTheAir, setSeriesOnTheAir] = useState<any>([])
     const [topRatedSeries, setTopRatedSeries] = useState<any>([])
     const [currentMovie, setCurrentMovie] = useState<any>()
+    const [currentVideo, setCurrentVideo] = useState<any>()
     const API = `?api_key=${API_KEY}`
     const BASE_URL = 'https://api.themoviedb.org/3'
     const TV = '/tv/'
@@ -31,6 +34,7 @@ export const MoviesContextProvider = ({children}:{children: any}) => {
     const POPULAR = 'popular'
     const TOP_RATED = 'top_rated'
     const ON_THE_AIR = 'on_the_air'
+    const VIDEOS = '/videos'
 
     const getMovieByID = async (id: string)  => {
         try {
@@ -49,6 +53,15 @@ export const MoviesContextProvider = ({children}:{children: any}) => {
         }
     }
 
+    const getMovieVideoByID = async (id: string)  => {
+        try {
+            const {data} = await axios.get(`${BASE_URL}${MOVIE}${id}${VIDEOS}${API}&language=fr`)
+            setCurrentVideo(data)
+        } catch (error) {
+            console.error(error)
+        }
+    }
+
     const propsContext: ContextProp = {
         popularMovies: popularMovies,
         topRatedMovies: topRatedMovies,
@@ -58,6 +71,8 @@ export const MoviesContextProvider = ({children}:{children: any}) => {
         getSerieByID: getSerieByID,
         seriesOnTheAir: seriesOnTheAir,
         topRatedSeries: topRatedSeries,
+        currentVideo: currentVideo,
+        getMovieVideoByID: getMovieVideoByID
     }
 
     const getPopularMovies = async () => {

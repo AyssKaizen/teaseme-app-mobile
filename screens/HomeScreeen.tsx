@@ -2,7 +2,7 @@ import React,{useState} from 'react'
 import { ScrollView, Platform, ImageBackground } from 'react-native';
 import { RootTabScreenProps } from '../types';
 import  {useMovies}  from '../contexts/MoviesContext';
-import { TextInput, ActivityIndicator, Card } from 'react-native-paper';
+import { TextInput, ActivityIndicator } from 'react-native-paper';
 import { StatusBar } from 'expo-status-bar';
 import MovieListItem from '../components/MovieListItem';
 
@@ -13,8 +13,8 @@ export default function HomeScreeen({ navigation }: RootTabScreenProps<'Home'>) 
   const {popularMovies,popularSeries,topRatedMovies, seriesOnTheAir, topRatedSeries} = apiMovieCtx
 
   const openModal = (id: string, isSerie?: boolean) => {
-    !isSerie ?  navigation.navigate('Modal', {id: id})
-    : navigation.navigate('Modal', {id: id, isSerie: true})
+    !isSerie ?  navigation.navigate('Details', {id: id})
+    : navigation.navigate('Details', {id: id, isSerie: true})
   }
   
   return (

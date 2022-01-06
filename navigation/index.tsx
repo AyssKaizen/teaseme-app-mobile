@@ -12,12 +12,14 @@ import { ColorSchemeName, ImageBackgroundBase, Pressable } from 'react-native';
 
 import Colors from '../constants/Colors';
 import useColorScheme from '../hooks/useColorScheme';
-import ModalScreen from '../screens/ModalScreen';
+import ModalScreen from '../screens/DetailsScreen';
 import NotFoundScreen from '../screens/NotFoundScreen';
 import { RootStackParamList, RootTabParamList, RootTabScreenProps } from '../types';
 import LinkingConfiguration from './LinkingConfiguration';
 import ProfileScreen from '../screens/ProfileScreen';
 import HomeScreeen from '../screens/HomeScreeen';
+import VideoScreen from '../screens/VideoScreen';
+import DetailsScreen from '../screens/DetailsScreen';
 
 export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
   return (
@@ -40,8 +42,10 @@ function RootNavigator() {
     <Stack.Navigator>
       <Stack.Screen name="Root" component={BottomTabNavigator} options={{ headerShown: false }} />
       <Stack.Screen name="NotFound" component={NotFoundScreen} options={{ title: 'Oops!' }} />
+      
+      <Stack.Screen name="Details" component={DetailsScreen} />
       <Stack.Group screenOptions={{ presentation: 'modal' }}>
-        <Stack.Screen name="Modal" component={ModalScreen} options={{ headerShown: false }} />
+       <Stack.Screen name="VideoScreen" component={VideoScreen} />
       </Stack.Group>
     </Stack.Navigator>
   );

@@ -6,7 +6,8 @@ import { useMovies } from '../contexts/MoviesContext';
 import { ActivityIndicator, Card, Paragraph, IconButton } from 'react-native-paper';
 import { POSTER_PATH } from '../utils/utils';
 import dateFormat from 'dateformat'
-export default function ModalScreen({route}:{route:any}) {
+
+export default function DetailsScreen({route,navigation}:{route:any,navigation:any}) {
   const apiMovieCtx = useMovies()
   const [movie, setMovie] = useState<any>()
   const [loading, setLoading] = useState(false)
@@ -24,11 +25,11 @@ export default function ModalScreen({route}:{route:any}) {
 
   {if(loading) return <ActivityIndicator animating size='large'/>}
   return (
-    <View style={styles.container}>
+    <ScrollView>
       {!movie || loading ? <ActivityIndicator animating size='large'/> :
-      <>
+      <View style={styles.container}>
         <Card>
-          <Card.Cover resizeMode='cover' style={{height: 400}} source={{uri:`${POSTER_PATH}${movie.backdrop_path}`}}/>
+          <Card.Cover resizeMode='cover' style={{height: 450}} source={{uri:`${POSTER_PATH}${movie.backdrop_path}`}}/>
           <Card.Content style={{backgroundColor:'#cccfc8'}}>
             <Card.Title
               title={movie.title ? movie.title : movie.name}
@@ -41,7 +42,7 @@ export default function ModalScreen({route}:{route:any}) {
                 size={30} 
                 style={{position: 'absolute', right: -5}} 
                 icon='youtube' 
-                onPress={()=> console.log('youtube')}
+                onPress={()=> {navigation.navigate('VideoScreen',{id: movie.id})}}
               />}
             />
             <View style={styles.genresContainer}>
@@ -51,22 +52,21 @@ export default function ModalScreen({route}:{route:any}) {
                   )
                 })}
                 </View>
-            <ScrollView>
               <Paragraph>{movie.overview}</Paragraph>
-            </ScrollView>
           </Card.Content>
         </Card>
         <StatusBar style={Platform.OS === 'ios' ? 'light' : 'auto'} />
-      </>
+      </View>
       }
-    </View>
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#c8c9cf'
+    backgroundColor: '#c8c9cf',
+    height: 1000
   },
   title: {
     fontSize: 20,
