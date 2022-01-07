@@ -42,7 +42,7 @@ export default function DetailsScreen({route,navigation}:{route:any,navigation:a
                 size={30} 
                 style={{position: 'absolute', right: -5}} 
                 icon='youtube' 
-                onPress={()=> {navigation.navigate('VideoScreen',{id: movie.id})}}
+                onPress={()=> {navigation.navigate('VideoScreen',{id: movie.id, isSerie: isSerie})}}
               />}
             />
             <View style={styles.genresContainer}>

@@ -82,7 +82,7 @@ export const MoviesContextProvider = ({children}:{children: any}) => {
         topRatedSeries: topRatedSeries,
         currentVideo: currentVideo,
         getMovieVideoByID: getMovieVideoByID,
-        getSerieVideoByID: getSerieVideoByID
+        getSerieVideoByID: getSerieVideoByID 
     }
 
     const getPopularMovies = async () => {
