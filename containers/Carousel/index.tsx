@@ -23,6 +23,7 @@ const Carousel = (
       <Crs
         sliderWidth={WIDTH}
         autoplay
+        loop={true}
         autoplayDelay={4}
         itemWidth={ITEM_WIDTH}
         inactiveSlideOpacity={1.0}
