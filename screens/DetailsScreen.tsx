@@ -1,9 +1,9 @@
 import React,{useEffect,useState} from 'react'
 import { StatusBar } from 'expo-status-bar';
-import { Platform, StyleSheet, Text, View } from 'react-native';
+import { Platform, StyleSheet, Text, View, ActivityIndicator } from 'react-native';
 import { ScrollView } from 'react-native';
 import { useMovies } from '../contexts/MoviesContext';
-import { ActivityIndicator, Card, Paragraph, IconButton } from 'react-native-paper';
+import { Card, Paragraph, IconButton } from 'react-native-paper';
 import { POSTER_PATH } from '../utils/utils';
 import dateFormat from 'dateformat'
 
@@ -14,16 +14,16 @@ export default function DetailsScreen({route,navigation}:{route:any,navigation:a
   const {id, isSerie} = route.params
 
   useEffect(() => {
-    setLoading(true)
     if(!movie || movie.id !== apiMovieCtx.currentMovie.id){
+      setLoading(true)
       !isSerie ? apiMovieCtx.getMovieByID(id) : apiMovieCtx.getSerieByID(id)
       setMovie(apiMovieCtx.currentMovie)
+      setLoading(false)
     }
-    setLoading(false)
   },[apiMovieCtx.currentMovie])
 
 
-  {if(loading) return <ActivityIndicator animating size='large'/>}
+  {if(loading) return <ActivityIndicator size='large' style={{marginTop: '50%'}}/>}
   return (
     <ScrollView>
       {!movie || loading ? <ActivityIndicator animating size='large'/> :

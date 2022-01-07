@@ -45,7 +45,7 @@ function RootNavigator() {
       
       <Stack.Screen name="Details" component={DetailsScreen} />
       <Stack.Group screenOptions={{ presentation: 'modal' }}>
-       <Stack.Screen name="VideoScreen" component={VideoScreen} />
+       <Stack.Screen name="VideoScreen" component={VideoScreen} options={{title: 'Bandes annonces'}} />
       </Stack.Group>
     </Stack.Navigator>
   );

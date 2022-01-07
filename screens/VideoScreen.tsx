@@ -1,6 +1,6 @@
-import React,{useState, useRef, useEffect, useCallback} from 'react';
-import { View, StyleSheet, Alert, ActivityIndicator } from 'react-native';
-
+import React,{useState, useEffect, useCallback} from 'react';
+import { View, StyleSheet, Alert, ActivityIndicator,ScrollView } from 'react-native';
+import { Text } from '../components/Themed';
 import YoutubePlayer from "react-native-youtube-iframe";
 import { useMovies } from '../contexts/MoviesContext';
 
@@ -27,10 +27,11 @@ export default function VideoScreen({route}:{route:any}) {
 
   const displayTrailers = (trailerArray: Array<any>) => {
     const trailers:any = trailerArray.map((item)=> (
-        <View>
-
+        <View style={{display: 'flex', justifyContent:'center', alignItems:'center', marginTop: 15}} key={item.id}>
+            <Text style={{fontSize: 17, fontWeight:'600', textAlign:'center', marginBottom: 10, marginHorizontal: 30}}>{item.name}</Text>
             <YoutubePlayer
-                height={250}
+                height={220}
+                width={350}
                 play={playing}
                 videoId={item.key}
                 onChangeState={onStateChange}
@@ -39,11 +40,17 @@ export default function VideoScreen({route}:{route:any}) {
         return trailers
   }
   
-  return ( <>
-        { currentVid ?
-         displayTrailers(currentVideo.results)
-         : <ActivityIndicator/>}
-        </>
+  return ( 
+        <ScrollView>
+            { 
+                currentVid 
+                ? displayTrailers(currentVid.results)
+                : <ActivityIndicator/>
+            }
+            {
+                currentVid?.results <=  0 && <Text style={{fontWeight: 'bold', fontSize: 30, alignSelf:'center', textAlign:'center', marginVertical: '50%'}}>😞Aucune Bande annonces pour ce média😞</Text>
+            }
+        </ScrollView>
         )
 
 }
