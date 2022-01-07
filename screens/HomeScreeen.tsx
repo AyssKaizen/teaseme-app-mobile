@@ -9,7 +9,7 @@ import MovieListItem from '../components/MovieListItem';
 export default function HomeScreeen({ navigation }: RootTabScreenProps<'Home'>) {
   const img = require('../assets/images/background.jpeg')
   const apiMovieCtx = useMovies()
-  const [text, setText] = useState<any>()
+  const [text, setText] = useState<string>('')
   const [isLoading, setIsLoading] = useState<boolean>()
   const {popularMovies,popularSeries,topRatedMovies, seriesOnTheAir, topRatedSeries} = apiMovieCtx
 
@@ -36,7 +36,7 @@ export default function HomeScreeen({ navigation }: RootTabScreenProps<'Home'>) 
             style={{marginHorizontal: 20, marginVertical: 10, height:45}}
             autoComplete
             activeUnderlineColor='#FA4B7C'
-            right={<TextInput.Icon name='magnify' onPress={()=> {}}/>}
+            right={<TextInput.Icon name='magnify' onPress={()=> {navigation.navigate('SearchScreen', {searchText: text})}}/>}
           />
           <ScrollView>
             <MovieListItem isSerie={false} title='Films populaires' medias={popularMovies} openModal={openModal} />
