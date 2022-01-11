@@ -7,13 +7,13 @@ import { useMovies } from '../contexts/MoviesContext';
 export default function VideoScreen({route}:{route:any}) {
   const apiMovieCtx = useMovies()
   const [playing, setPlaying] = useState(false);
-  const {getMovieVideoByID, currentVideo} = apiMovieCtx
+  const {getMovieVideoByID, currentVideo, getSerieVideoByID} = apiMovieCtx
   const [currentVid, setCurrentVid] = useState<any>()
-  const {id} = route.params
+  const {id, isSerie} = route.params
 
   useEffect(() => {
     if(!currentVid || id != currentVid.id){
-        getMovieVideoByID(id)
+        !isSerie ? getMovieVideoByID(id) : getSerieVideoByID(id)
         setCurrentVid(currentVideo)
     }
   },[currentVideo])
