@@ -6,13 +6,11 @@ interface ContextProp {
     popularMovies?: any,
     topRatedMovies?: any,
     popularSeries?: any
-    currentMovie?: any,
     seriesOnTheAir?: any,
     topRatedSeries?: any,
-    currentVideo?: any,
-    getSerieByID: (id: string) => void
-    getMovieByID: (id: string) => void
-    getMovieVideoByID: (id: string) => void
+    getSerieByID: (id: string) => Promise<any>
+    getMovieByID: (id: string) => Promise<any>
+    getMediaVideoByID: (id: string, isSerie: boolean) => Promise<any>
     getMediasBySearchText: (searchText: string) => Promise<any[]>
 }
 
@@ -26,8 +24,6 @@ export const MoviesContextProvider = ({children}:{children: any}) => {
     const [topRatedMovies, setTopRatedMovies] = useState<any>([])
     const [seriesOnTheAir, setSeriesOnTheAir] = useState<any>([])
     const [topRatedSeries, setTopRatedSeries] = useState<any>([])
-    const [currentMovie, setCurrentMovie] = useState<any>()
-    const [currentVideo, setCurrentVideo] = useState<any>()
     const API = `?api_key=${API_KEY}`
     const BASE_URL = 'https://api.themoviedb.org/3'
     const TV = '/tv/'
@@ -40,25 +36,29 @@ export const MoviesContextProvider = ({children}:{children: any}) => {
 
     const getMovieByID = async (id: string)  => {
         try {
-            const {data} = await axios.get(`${BASE_URL}${MOVIE}${id}${API}&language=fr`)
-            setCurrentMovie(data)
+            return await axios.get(`${BASE_URL}${MOVIE}${id}${API}&language=fr`)
+            .then(res => res.data)
         } catch (error) {
             console.error(error)
         }
     }
     const getSerieByID = async (id: string)  => {
         try {
-            const {data} = await axios.get(`${BASE_URL}${TV}${id}${API}&language=fr`)
-            setCurrentMovie(data)
+            return await axios.get(`${BASE_URL}${TV}${id}${API}&language=fr`)
+            .then(res => res.data)
         } catch (error) {
             console.error(error)
         }
     }
 
-    const getMovieVideoByID = async (id: string)  => {
+    const getMediaVideoByID = async (id: string, isSerie: boolean)  => {
         try {
-            const {data} = await axios.get(`${BASE_URL}${MOVIE}${id}${VIDEOS}${API}&language=fr`)
-            setCurrentVideo(data)
+            if(!isSerie)
+                return await axios.get(`${BASE_URL}${MOVIE}${id}${VIDEOS}${API}&language=fr`)
+                .then(response  => response.data)
+            if(isSerie)
+                return await axios.get(`${BASE_URL}${TV}${id}${VIDEOS}${API}&language=fr`)
+                .then(response  => response.data)
         } catch (error) {
             console.error(error)
         }
@@ -67,9 +67,7 @@ export const MoviesContextProvider = ({children}:{children: any}) => {
     const getMediasBySearchText = async (searchText: string) => {
         try {
          return await axios.get(`${BASE_URL}${SEARCH_MULTI}${API}&language=fr&query=${searchText}`)
-            .then((response)=> {
-                return response.data.results
-            })
+            .then((response)=> response.data.results)
         } catch (error) {
             console.error(error)
         }
@@ -80,12 +78,10 @@ export const MoviesContextProvider = ({children}:{children: any}) => {
         topRatedMovies: topRatedMovies,
         popularSeries: popularSeries,
         getMovieByID: getMovieByID,
-        currentMovie: currentMovie,
         getSerieByID: getSerieByID,
         seriesOnTheAir: seriesOnTheAir,
         topRatedSeries: topRatedSeries,
-        currentVideo: currentVideo,
-        getMovieVideoByID: getMovieVideoByID,
+        getMediaVideoByID: getMediaVideoByID,
         getMediasBySearchText: getMediasBySearchText
     }
 

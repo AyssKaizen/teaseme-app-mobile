@@ -8,32 +8,31 @@ import { POSTER_PATH } from '../utils/utils';
 import dateFormat from 'dateformat'
 
 export default function DetailsScreen({route,navigation}:{route:any,navigation:any}) {
-  const apiMovieCtx = useMovies()
-  const [movie, setMovie] = useState<any>()
-  const [loading, setLoading] = useState(false)
+  const {getMovieByID, getSerieByID} = useMovies()
+  const [media, setMedia] = useState<any>()
   const {id, isSerie} = route.params
 
   useEffect(() => {
-    if(!movie || movie.id !== apiMovieCtx.currentMovie.id){
-      setLoading(true)
-      !isSerie ? apiMovieCtx.getMovieByID(id) : apiMovieCtx.getSerieByID(id)
-      setMovie(apiMovieCtx.currentMovie)
-      setLoading(false)
-    }
-  },[apiMovieCtx.currentMovie])
-
-
-  {if(loading) return <ActivityIndicator size='large' style={{marginTop: '50%'}}/>}
+    if(!isSerie)
+      getMovieByID(id).then(res => {
+        setMedia(res)
+      })
+    else 
+      getSerieByID(id).then( res => {
+        setMedia(res)
+      })
+  },[])
+  {media && console.log(media)}
   return (
     <ScrollView>
-      {!movie || loading ? <ActivityIndicator animating size='large'/> :
+      {!media ? <ActivityIndicator color='red' style={{marginTop: '50%'}} animating size='large'/> :
       <View style={styles.container}>
         <Card>
-          <Card.Cover resizeMode='cover' style={{height: 450}} source={{uri:`${POSTER_PATH}${movie.backdrop_path}`}}/>
+          <Card.Cover resizeMode='cover' style={{height: 450}} source={{uri:`${POSTER_PATH}${media.backdrop_path}`}}/>
           <Card.Content style={{backgroundColor:'#cccfc8'}}>
             <Card.Title
-              title={movie.title ? movie.title : movie.name}
-              subtitle={movie.release_date ? dateFormat(movie.release_date, "dS mmmm, yyyy")  : dateFormat(movie.first_air_date, "dS mmmm, yyyy") }
+              title={media.title ? media.title : media.name}
+              subtitle={media.release_date ? dateFormat(media.release_date, "dS mmmm, yyyy")  : dateFormat(media.first_air_date, "dS mmmm, yyyy") }
               titleStyle={{textAlign:'center'}}
               titleNumberOfLines={2}
               subtitleStyle={{alignSelf:'center', color:'#FA4B7C'}}
@@ -42,17 +41,17 @@ export default function DetailsScreen({route,navigation}:{route:any,navigation:a
                 size={30} 
                 style={{position: 'absolute', right: -5}} 
                 icon='youtube' 
-                onPress={()=> {navigation.navigate('VideoScreen',{id: movie.id})}}
+                onPress={()=> {navigation.navigate('VideoScreen',{id: media.id, isSerie: isSerie})}}
               />}
             />
             <View style={styles.genresContainer}>
-                {movie.genres.map((genre:any) => {
+                {media.genres.map((genre:any) => {
                   return (
                     <Text style={styles.genre} key={genre.id}>{genre.name}</Text>
                   )
                 })}
                 </View>
-              <Paragraph>{movie.overview}</Paragraph>
+              <Paragraph>{media.overview}</Paragraph>
           </Card.Content>
         </Card>
         <StatusBar style={Platform.OS === 'ios' ? 'light' : 'auto'} />

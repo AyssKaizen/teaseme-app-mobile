@@ -8,10 +8,9 @@ import MovieListItem from '../components/MovieListItem';
 
 export default function HomeScreeen({ navigation }: RootTabScreenProps<'Home'>) {
   const img = require('../assets/images/background.jpeg')
-  const apiMovieCtx = useMovies()
   const [text, setText] = useState<string>('')
   const [isLoading, setIsLoading] = useState<boolean>()
-  const {popularMovies,popularSeries,topRatedMovies, seriesOnTheAir, topRatedSeries} = apiMovieCtx
+  const {popularMovies,popularSeries,topRatedMovies, seriesOnTheAir, topRatedSeries} = useMovies()
 
   const openDetails = (id: string, isSerie?: boolean) => {
     !isSerie ?  navigation.navigate('Details', {id: id})
@@ -32,7 +31,7 @@ export default function HomeScreeen({ navigation }: RootTabScreenProps<'Home'>) 
         {!isLoading ?
         <>
           <TextInput
-            placeholder='Taper un film ou une serie'
+            placeholder='chercher un film ou une serie'
             value={text}
             onChangeText={text => setText(text)}
             style={{marginHorizontal: 20, marginVertical: 10, height:45}}
