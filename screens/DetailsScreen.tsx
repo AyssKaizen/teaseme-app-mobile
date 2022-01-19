@@ -22,7 +22,7 @@ export default function DetailsScreen({route,navigation}:{route:any,navigation:a
         setMedia(res)
       })
   },[])
-  {media && console.log(media)}
+  
   return (
     <ScrollView>
       {!media ? <ActivityIndicator color='red' style={{marginTop: '50%'}} animating size='large'/> :
