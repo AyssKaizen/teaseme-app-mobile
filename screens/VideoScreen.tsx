@@ -5,18 +5,16 @@ import YoutubePlayer from "react-native-youtube-iframe";
 import { useMovies } from '../contexts/MoviesContext';
 
 export default function VideoScreen({route}:{route:any}) {
-  const apiMovieCtx = useMovies()
   const [playing, setPlaying] = useState(false);
-  const {getMovieVideoByID, currentVideo, getSerieVideoByID} = apiMovieCtx
+  const {getMediaVideoByID} = useMovies()
   const [currentVid, setCurrentVid] = useState<any>()
   const {id, isSerie} = route.params
 
   useEffect(() => {
-    if(!currentVid || id != currentVid.id){
-        !isSerie ? getMovieVideoByID(id) : getSerieVideoByID(id)
-        setCurrentVid(currentVideo)
-    }
-  },[currentVideo])
+    getMediaVideoByID(id,isSerie).then(res => {
+      setCurrentVid(res)
+    })
+  },[])
 
   const onStateChange = useCallback((state) => {
     if (state === "ended") {

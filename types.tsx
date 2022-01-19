@@ -17,7 +17,9 @@ export type RootStackParamList = {
   Root: NavigatorScreenParams<RootTabParamList> | undefined;
   Details: {id: string, isSerie?: boolean} | undefined;
   NotFound: undefined;
-  VideoScreen: {id: string, isSerie: boolean};
+  VideoScreen: {id: string, isSerie: boolean}
+  SearchScreen: {searchText: string}
+
 };
 
 export type RootStackScreenProps<Screen extends keyof RootStackParamList> = NativeStackScreenProps<

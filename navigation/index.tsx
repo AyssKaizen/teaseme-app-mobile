@@ -12,7 +12,6 @@ import { ColorSchemeName, ImageBackgroundBase, Pressable } from 'react-native';
 
 import Colors from '../constants/Colors';
 import useColorScheme from '../hooks/useColorScheme';
-import ModalScreen from '../screens/DetailsScreen';
 import NotFoundScreen from '../screens/NotFoundScreen';
 import { RootStackParamList, RootTabParamList, RootTabScreenProps } from '../types';
 import LinkingConfiguration from './LinkingConfiguration';
@@ -20,6 +19,7 @@ import ProfileScreen from '../screens/ProfileScreen';
 import HomeScreeen from '../screens/HomeScreeen';
 import VideoScreen from '../screens/VideoScreen';
 import DetailsScreen from '../screens/DetailsScreen';
+import SearchResultScreen from '../screens/SearchResScreen';
 
 export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
   return (
@@ -46,6 +46,7 @@ function RootNavigator() {
       <Stack.Screen name="Details" component={DetailsScreen} />
       <Stack.Group screenOptions={{ presentation: 'modal' }}>
        <Stack.Screen name="VideoScreen" component={VideoScreen} options={{title: 'Bandes annonces'}} />
+       <Stack.Screen name="SearchScreen" component={SearchResultScreen} options={{title: 'Resultat de votre recherche'}} />
       </Stack.Group>
     </Stack.Navigator>
   );
