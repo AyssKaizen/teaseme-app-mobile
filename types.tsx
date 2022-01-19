@@ -19,6 +19,7 @@ export type RootStackParamList = {
   NotFound: undefined;
   VideoScreen: {id: string, isSerie: boolean}
   SearchScreen: {searchText: string}
+
 };
 
 export type RootStackScreenProps<Screen extends keyof RootStackParamList> = NativeStackScreenProps<

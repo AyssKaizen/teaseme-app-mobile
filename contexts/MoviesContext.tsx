@@ -72,6 +72,14 @@ export const MoviesContextProvider = ({children}:{children: any}) => {
             console.error(error)
         }
     }
+    const getSerieVideoByID = async (id: string)  => {
+        try {
+            const {data} = await axios.get(`${BASE_URL}${TV}${id}${VIDEOS}${API}&language=fr`)
+            setCurrentVideo(data)
+        } catch (error) {
+            console.error(error)
+        }
+    }
 
     const propsContext: ContextProp = {
         popularMovies: popularMovies,
