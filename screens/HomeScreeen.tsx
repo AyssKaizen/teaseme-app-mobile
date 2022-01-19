@@ -13,7 +13,7 @@ export default function HomeScreeen({ navigation }: RootTabScreenProps<'Home'>) 
   const [isLoading, setIsLoading] = useState<boolean>()
   const {popularMovies,popularSeries,topRatedMovies, seriesOnTheAir, topRatedSeries} = apiMovieCtx
 
-  const openModal = (id: string, isSerie?: boolean) => {
+  const openDetails = (id: string, isSerie?: boolean) => {
     !isSerie ?  navigation.navigate('Details', {id: id})
     : navigation.navigate('Details', {id: id, isSerie: true})
   }
@@ -21,8 +21,10 @@ export default function HomeScreeen({ navigation }: RootTabScreenProps<'Home'>) 
   useEffect(()=> {
     if((popularMovies || popularSeries || topRatedSeries || topRatedMovies || seriesOnTheAir).length <= 0)
       setIsLoading(true)
-    else setIsLoading(false)
-  },[apiMovieCtx])
+    else setTimeout(()=> {
+      setIsLoading(false)
+    },1000) 
+  })
 
   return (
   <ScrollView>
@@ -36,14 +38,14 @@ export default function HomeScreeen({ navigation }: RootTabScreenProps<'Home'>) 
             style={{marginHorizontal: 20, marginVertical: 10, height:45}}
             autoComplete
             activeUnderlineColor='#FA4B7C'
-            right={<TextInput.Icon name='magnify' onPress={()=> {navigation.navigate('SearchScreen', {searchText: text})}}/>}
+            right={<TextInput.Icon name='magnify' style={{zIndex: 4}} onPress={()=> {navigation.navigate('SearchScreen', {searchText: text})}}/>}
           />
           <ScrollView>
-            <MovieListItem isSerie={false} title='Films populaires' medias={popularMovies} openModal={openModal} />
-            <MovieListItem isSerie={false} title='Films les mieux notés' medias={topRatedMovies} openModal={openModal} />
-            <MovieListItem isSerie title='Séries populaires' medias={popularSeries} openModal={openModal} />
-            <MovieListItem isSerie title="Séries les mieux notées" medias={topRatedSeries} openModal={openModal} />
-            <MovieListItem isSerie title="Séries à l'antenne" medias={seriesOnTheAir} openModal={openModal} />
+            <MovieListItem isSerie={false} title='Films populaires' medias={popularMovies} openDetails={openDetails} />
+            <MovieListItem isSerie={false} title='Films les mieux notés' medias={topRatedMovies} openDetails={openDetails} />
+            <MovieListItem isSerie title='Séries populaires' medias={popularSeries} openDetails={openDetails} />
+            <MovieListItem isSerie title="Séries les mieux notées" medias={topRatedSeries} openDetails={openDetails} />
+            <MovieListItem isSerie title="Séries à l'antenne" medias={seriesOnTheAir} openDetails={openDetails} />
           </ScrollView>
           <StatusBar style={Platform.OS === 'ios' ? 'dark' : 'auto'} />
         </> :

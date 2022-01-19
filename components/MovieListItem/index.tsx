@@ -8,14 +8,14 @@ import { POSTER_PATH as URL_POSTER } from '../../utils/utils'
 
 
 
-const MovieListItem = ({medias,openModal, title, isSerie}:{medias: any,title: string, openModal:(id:string, isSerie: boolean) => void, isSerie: boolean}) => {
+const MovieListItem = ({medias,openDetails, title, isSerie}:{medias: any,title: string, openDetails:(id:string, isSerie: boolean) => void, isSerie: boolean}) => {
     return (
         <View style={{height: 340}}>
             <Text style={{alignSelf:'center',fontSize: 22, fontWeight: 'bold'}}>{title}</Text>
             <Carousel
             items={medias}
             render={ ({item}:{item:any}) => (
-              <Card elevation={5} onPress={() => openModal(item.id, isSerie)} style={{marginTop: 50}}>
+              <Card elevation={5} onPress={() => openDetails(item.id, isSerie)} style={{marginTop: 50}}>
                   <Image resizeMode='cover' style={{width: 170, height: 255}} source={{uri:`${URL_POSTER}${item.poster_path}`}}/>
                   <View style={{alignSelf:'center', flexDirection: 'row'}}>
                     <Text style={{paddingTop: 2, paddingRight: 5, fontSize: 18, fontWeight:'bold', color: '#FA4B7C'}}>Note:</Text>

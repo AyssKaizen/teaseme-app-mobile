@@ -13,6 +13,7 @@ interface ContextProp {
     getSerieByID: (id: string) => void
     getMovieByID: (id: string) => void
     getMovieVideoByID: (id: string) => void
+    getMediasBySearchText: (searchText: string) => Promise<any[]>
 }
 
 const MoviesContext = createContext<ContextProp>({});
@@ -35,6 +36,7 @@ export const MoviesContextProvider = ({children}:{children: any}) => {
     const TOP_RATED = 'top_rated'
     const ON_THE_AIR = 'on_the_air'
     const VIDEOS = '/videos'
+    const SEARCH_MULTI = '/search/multi'
 
     const getMovieByID = async (id: string)  => {
         try {
@@ -62,6 +64,17 @@ export const MoviesContextProvider = ({children}:{children: any}) => {
         }
     }
 
+    const getMediasBySearchText = async (searchText: string) => {
+        try {
+         return await axios.get(`${BASE_URL}${SEARCH_MULTI}${API}&language=fr&query=${searchText}`)
+            .then((response)=> {
+                return response.data.results
+            })
+        } catch (error) {
+            console.error(error)
+        }
+    }
+
     const propsContext: ContextProp = {
         popularMovies: popularMovies,
         topRatedMovies: topRatedMovies,
@@ -72,7 +85,8 @@ export const MoviesContextProvider = ({children}:{children: any}) => {
         seriesOnTheAir: seriesOnTheAir,
         topRatedSeries: topRatedSeries,
         currentVideo: currentVideo,
-        getMovieVideoByID: getMovieVideoByID
+        getMovieVideoByID: getMovieVideoByID,
+        getMediasBySearchText: getMediasBySearchText
     }
 
     const getPopularMovies = async () => {
@@ -117,7 +131,6 @@ export const MoviesContextProvider = ({children}:{children: any}) => {
         }
     }
     
-
     useEffect(()=> {
         getPopularMovies()
         getTopRatedMovies()
